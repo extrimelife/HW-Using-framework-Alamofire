@@ -22,7 +22,6 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData()
-        fetchImage()
         setupActivitiIndicator()
         
     }
@@ -48,6 +47,7 @@ final class MainViewController: UIViewController {
             case .success(let nasa):
                 self.explanationLabel.text = nasa.explanation
                 self.dateLabel.text = nasa.date
+                self.fetchImage(url: nasa.url)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -56,8 +56,8 @@ final class MainViewController: UIViewController {
     
     
     
-    private func fetchImage() {
-        NetworkManager.shared.fetchDataImg(from: Link.imageUrl.rawValue) { result in
+    private func fetchImage(url: String?) {
+        NetworkManager.shared.fetchDataImg(from: url ?? "") { result in
             switch result {
             case .success(let imageData):
                 self.imageView.image = UIImage(data: imageData)
